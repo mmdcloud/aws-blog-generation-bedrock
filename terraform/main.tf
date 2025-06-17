@@ -183,7 +183,7 @@ module "frontend_instance" {
 
 module "blog_storage_bucket" {
   source             = "./modules/s3"
-  bucket_name        = "blogstoragebucket"
+  bucket_name        = "bloggenerationbedrockstoragebucket"
   objects            = []
   versioning_enabled = "Enabled"
   bucket_notification = {
@@ -204,7 +204,7 @@ module "blog_storage_bucket" {
 # Lambda Function Code Bucket
 module "lambda_function_code_bucket" {
   source      = "./modules/s3"
-  bucket_name = "lambdafunctioncodebucket"
+  bucket_name = "bloggenerationbedrocklambdafunctioncodebucket"
   objects = [
     {
       key    = "lambda_function.zip"
