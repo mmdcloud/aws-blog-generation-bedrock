@@ -1,7 +1,7 @@
 # VPC Configuration
 module "vpc" {
   source                = "./modules/vpc/vpc"
-  vpc_name              = "mediaconvert-vpc"
+  vpc_name              = "vpc"
   vpc_cidr_block        = "10.0.0.0/16"
   enable_dns_hostnames  = true
   enable_dns_support    = true
@@ -12,7 +12,7 @@ module "vpc" {
 module "security_group" {
   source = "./modules/vpc/security_groups"
   vpc_id = module.vpc.vpc_id
-  name   = "mediaconvert-security-group"
+  name   = "security-group"
   ingress = [
     {
       from_port       = 80
@@ -46,7 +46,7 @@ module "security_group" {
 # Public Subnets
 module "public_subnets" {
   source = "./modules/vpc/subnets"
-  name   = "mediaconvert-public-subnet"
+  name   = "public-subnet"
   subnets = [
     {
       subnet = "10.0.1.0/24"
@@ -68,7 +68,7 @@ module "public_subnets" {
 # Private Subnets
 module "private_subnets" {
   source = "./modules/vpc/subnets"
-  name   = "mediaconvert-private-subnet"
+  name   = "private-subnet"
   subnets = [
     {
       subnet = "10.0.6.0/24"
@@ -90,7 +90,7 @@ module "private_subnets" {
 # Public Route Table
 module "public_rt" {
   source  = "./modules/vpc/route_tables"
-  name    = "mediaconvert-public-route-table"
+  name    = "public-route-table"
   subnets = module.public_subnets.subnets[*]
   routes = [
     {
@@ -104,7 +104,7 @@ module "public_rt" {
 # Private Route Table
 module "private_rt" {
   source  = "./modules/vpc/route_tables"
-  name    = "mediaconvert-private-route-table"
+  name    = "private-route-table"
   subnets = module.private_subnets.subnets[*]
   routes  = []
   vpc_id  = module.vpc.vpc_id
